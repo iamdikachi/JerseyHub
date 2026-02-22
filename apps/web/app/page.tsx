@@ -1,8 +1,8 @@
 import Header from "../components/Header";
-import Hero from "../components/Hero";
-import CategorySection from "../components/CategorySection";
-import TrendingSection from "../components/TrendingSection";
-import FeaturesSection from "../components/FeaturesSection";
+import Hero from "../components/home/Hero";
+import CategorySection from "../components/home/CategorySection";
+import TrendingSection from "../components/home/TrendingSection";
+import FeaturesSection from "../components/home/FeaturesSection";
 import Footer from "../components/Footer";
 
 export default function Home() {
