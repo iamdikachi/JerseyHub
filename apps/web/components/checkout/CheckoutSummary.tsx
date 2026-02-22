@@ -2,11 +2,20 @@
 
 import { useCart } from "../../context/CartContext";
 
+import { useRouter } from "next/navigation";
+
 export default function CheckoutSummary() {
-  const { items, subtotal } = useCart();
+  const { items, subtotal, clearCart } = useCart();
+  const router = useRouter();
   const shipping = 0;
   const taxes = subtotal * 0.1; // Demo: 10% tax
   const total = subtotal + shipping + taxes;
+
+  const handlePay = () => {
+    // Mock payment successful
+    clearCart();
+    router.push("/checkout/confirmation");
+  };
 
   return (
     <div className="bg-white border border-gray-100 rounded-3xl p-8 shadow-sm h-fit sticky top-24">
@@ -101,7 +110,10 @@ export default function CheckoutSummary() {
         </div>
       </div>
 
-      <button className="w-full h-16 bg-primary text-white font-black text-[1.125rem] rounded-2xl flex items-center justify-center gap-3 shadow-xl shadow-blue-200 hover:bg-primary-hover transition-all active:scale-[0.98] mt-8">
+      <button
+        onClick={handlePay}
+        className="w-full h-16 bg-primary text-white font-black text-[1.125rem] rounded-2xl flex items-center justify-center gap-3 shadow-xl shadow-blue-200 hover:bg-primary-hover transition-all active:scale-[0.98] mt-8"
+      >
         Pay ${total.toFixed(2)} Now
         <svg
           width="20"
