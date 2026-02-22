@@ -2,7 +2,7 @@ export default function Footer() {
   return (
     <footer className="bg-[#F9F9FB] pt-12 pb-8">
       <div className="container">
-        <div className="flex flex-col gap-8 mb-10">
+        <div className="flex flex-col md:flex-row justify-between gap-8 mb-10">
           <div className="max-w-[400px]">
             <div className="flex items-center gap-2 font-heading font-extrabold text-[1.125rem] text-secondary mb-3">
               <div className="w-7 h-7 bg-primary rounded-md flex items-center justify-center">

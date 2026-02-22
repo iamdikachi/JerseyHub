@@ -1,7 +1,5 @@
+import Link from "next/link";
 import { ProductCardProps } from "../../types/product";
-
-
-
 
 const tagStyles = {
   sale: "bg-accent text-white",
@@ -12,9 +10,8 @@ const tagStyles = {
   limited: "bg-[#0A0A0A] text-white",
 };
 
-
-
 export default function ProductCard({
+  id,
   name,
   price,
   season,
@@ -24,8 +21,11 @@ export default function ProductCard({
   colors,
 }: ProductCardProps) {
   return (
-    <div className="flex flex-col gap-3 cursor-pointer group">
-      <div className="relative aspect-square bg-[#F5F5F7] rounded-lg overflow-hidden flex items-center justify-center">
+    <Link
+      href={`/jerseys/${id}`}
+      className="flex flex-col gap-3 cursor-pointer group"
+    >
+      <div className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
         <img
           src={image}
           alt={name}
@@ -60,12 +60,12 @@ export default function ProductCard({
         <p className="text-[0.6875rem] font-medium text-gray-400 uppercase tracking-tight">
           {season}
         </p>
-        <h3 className="text-[0.9375rem] font-bold text-secondary leading-tight">
+        <h3 className="text-[0.9375rem] font-bold text-secondary leading-tight line-clamp-2 min-h-10">
           {name}
         </h3>
         <div className="flex justify-between items-center mt-1">
           <span className="text-[0.9375rem] font-extrabold text-secondary">
-            {price}
+            ${price.toFixed(2)}
           </span>
           {colors && colors.length > 0 && (
             <div className="flex gap-1.5">
@@ -80,6 +80,6 @@ export default function ProductCard({
           )}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
