@@ -1,3 +1,5 @@
+"use client";
+
 import Header from "../../../components/Header";
 import Footer from "../../../components/Footer";
 import ProductGallery from "../../../components/product/ProductGallery";
@@ -5,15 +7,32 @@ import CustomizationSection from "../../../components/product/CustomizationSecti
 import ProductCard from "../../../components/product/ProductCard";
 import { products } from "../../../data/product";
 import Link from "next/link";
+import { useState } from "react";
+import { useCart } from "../../../context/CartContext";
+import { CartCustomization } from "../../../types/cart";
 
 export default function ProductDetailPage({
   params,
 }: {
   params: { id: string };
 }) {
+  const { addItem } = useCart();
+  const [selectedSize, setSelectedSize] = useState("m");
+  const [customization, setCustomization] = useState<CartCustomization>({});
+
   const product = products.find((p) => p.id === "arsenal-03-04"); // Fallback for demo
 
   if (!product) return <div>Product not found</div>;
+
+  const handleAddToCart = () => {
+    addItem(product, selectedSize, customization);
+  };
+
+  const currentPrice =
+    product.price +
+    (customization.name?.price || 0) +
+    (customization.number?.price || 0) +
+    (customization.patch?.price || 0);
 
   return (
     <div className="min-h-screen bg-white">
@@ -44,7 +63,7 @@ export default function ProductDetailPage({
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <span className="text-[2.25rem] font-black text-secondary tracking-tight">
-                    ${product.price.toFixed(2)}
+                    ${currentPrice.toFixed(2)}
                   </span>
                   <div className="bg-[#EBFDF5] text-[#10B981] text-[0.75rem] font-bold px-3 py-1 rounded-full border border-[#D1FAE5]">
                     In Stock
@@ -99,10 +118,11 @@ export default function ProductDetailPage({
                   <button
                     key={size.value}
                     disabled={size.stock === 0}
+                    onClick={() => setSelectedSize(size.value)}
                     className={`relative h-14 rounded-xl text-[0.9375rem] font-black border transition-all ${
                       size.stock === 0
                         ? "bg-gray-50 border-gray-100 text-gray-200 cursor-not-allowed italic"
-                        : size.value === "m"
+                        : selectedSize === size.value
                           ? "bg-[#EBF2FF] border-primary text-primary shadow-sm"
                           : "bg-white border-gray-200 text-secondary hover:border-primary hover:text-primary"
                     }`}
@@ -124,9 +144,12 @@ export default function ProductDetailPage({
               </div>
             </div>
 
-            <CustomizationSection />
+            <CustomizationSection onChange={setCustomization} />
 
-            <button className="w-full h-16 bg-primary text-white font-black text-[1.125rem] rounded-2xl flex items-center justify-between px-8 shadow-xl shadow-blue-200 hover:bg-primary-hover active:scale-[0.98] transition-all">
+            <button
+              onClick={handleAddToCart}
+              className="w-full h-16 bg-primary text-white font-black text-[1.125rem] rounded-2xl flex items-center justify-between px-8 shadow-xl shadow-blue-200 hover:bg-primary-hover active:scale-[0.98] transition-all"
+            >
               <div className="flex items-center gap-3">
                 <svg
                   width="24"
@@ -141,7 +164,7 @@ export default function ProductDetailPage({
                 </svg>
                 Add to Cart
               </div>
-              <span>${product.price.toFixed(2)}</span>
+              <span>${currentPrice.toFixed(2)}</span>
             </button>
             <p className="text-center text-[0.8125rem] text-gray-400 font-medium">
               Free shipping on orders over $100. 30-day returns.

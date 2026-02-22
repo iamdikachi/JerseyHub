@@ -1,10 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { CartCustomization } from "../../types/cart";
 
-export default function CustomizationSection() {
+interface CustomizationSectionProps {
+  onChange: (customization: CartCustomization) => void;
+}
+
+export default function CustomizationSection({
+  onChange,
+}: CustomizationSectionProps) {
   const [addName, setAddName] = useState(false);
   const [addBadges, setAddBadges] = useState(false);
+  const [name, setName] = useState("");
+  const [number, setNumber] = useState("");
+
+  useEffect(() => {
+    const customization: CartCustomization = {};
+    if (addName) {
+      if (name) customization.name = { value: name, price: 10 };
+      if (number) customization.number = { value: number, price: 5 };
+    }
+    if (addBadges) {
+      customization.patch = { value: "UCL 14", price: 8 };
+    }
+    onChange(customization);
+  }, [addName, addBadges, name, number, onChange]);
 
   return (
     <div className="bg-[#F8F9FA] rounded-3xl p-6 flex flex-col gap-6">
@@ -53,6 +74,8 @@ export default function CustomizationSection() {
               </label>
               <input
                 placeholder="HENRY"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 className="w-full h-11 bg-white border border-gray-100 rounded-xl px-4 text-[0.875rem] font-bold uppercase placeholder:text-gray-200 focus:outline-none focus:border-primary transition-all"
               />
             </div>
@@ -62,6 +85,8 @@ export default function CustomizationSection() {
               </label>
               <input
                 placeholder="14"
+                value={number}
+                onChange={(e) => setNumber(e.target.value)}
                 className="w-full h-11 bg-white border border-gray-100 rounded-xl px-4 text-[0.875rem] font-bold placeholder:text-gray-200 focus:outline-none focus:border-primary transition-all"
               />
             </div>
@@ -77,7 +102,7 @@ export default function CustomizationSection() {
               Add League Badges
             </div>
             <div className="text-[0.75rem] text-gray-400">
-              Official Sleeve Patches (+$5.00)
+              Official Sleeve Patches (+$8.00)
             </div>
           </div>
           <button

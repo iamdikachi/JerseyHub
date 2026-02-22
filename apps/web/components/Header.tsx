@@ -1,6 +1,9 @@
+import { useCart } from "../context/CartContext";
 import Link from "next/link";
 
 export default function Header() {
+  const { openCart, itemCount } = useCart();
+
   return (
     <header className="h-[72px] bg-white border-b border-gray-200 sticky top-0 z-[1000] flex items-center">
       <div className="container flex items-center justify-between w-full">
@@ -9,7 +12,7 @@ export default function Header() {
             href="/"
             className="flex items-center gap-2 font-heading font-extrabold text-[1.25rem] text-secondary"
           >
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center font-normal">
               <svg
                 width="20"
                 height="20"
@@ -73,25 +76,25 @@ export default function Header() {
 
           <nav className="hidden lg:flex items-center gap-6">
             <Link
-              href="/clubs"
+              href="/jerseys"
               className="text-[0.875rem] font-medium text-gray-500 hover:text-primary transition-colors duration-150"
             >
               Clubs
             </Link>
             <Link
-              href="/countries"
+              href="/jerseys"
               className="text-[0.875rem] font-medium text-gray-500 hover:text-primary transition-colors duration-150"
             >
               Countries
             </Link>
             <Link
-              href="/vintage"
+              href="/jerseys"
               className="text-[0.875rem] font-medium text-gray-500 hover:text-primary transition-colors duration-150"
             >
               Vintage
             </Link>
             <Link
-              href="/track-order"
+              href="#"
               className="text-[0.875rem] font-medium text-gray-500 hover:text-primary transition-colors duration-150"
             >
               Track Order
@@ -114,8 +117,8 @@ export default function Header() {
           <div className="flex items-center h-[72px]">
             <div className="w-[1px] h-8 bg-gray-100 mx-2"></div>
 
-            <Link
-              href="/cart"
+            <button
+              onClick={openCart}
               className="relative w-10 h-10 flex items-center justify-center rounded-md text-secondary hover:bg-gray-100 hover:text-primary transition-all duration-150"
             >
               <svg
@@ -132,16 +135,13 @@ export default function Header() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
-                <circle
-                  cx="18"
-                  cy="6"
-                  r="3"
-                  fill="#0548D1"
-                  stroke="white"
-                  strokeWidth="2"
-                />
               </svg>
-            </Link>
+              {itemCount > 0 && (
+                <div className="absolute top-1.5 right-1.5 w-3.5 h-3.5 bg-primary border-2 border-white rounded-full flex items-center justify-center text-[0.5rem] font-bold text-white">
+                  {itemCount}
+                </div>
+              )}
+            </button>
 
             <button className="w-10 h-10 flex items-center justify-center text-secondary hover:bg-gray-100 rounded-md ml-1 lg:hidden">
               <svg
