@@ -17,10 +17,10 @@ import {
 
 const navItems = [
   { label: "Dashboard", icon: DashboardIcon, href: "/dashboard" },
-  { label: "Products", icon: ProductsIcon, href: "/products" },
-  { label: "Orders", icon: OrdersIcon, href: "/orders", badge: 12 },
-  { label: "Inventory", icon: InventoryIcon, href: "/inventory" },
-  { label: "Customers", icon: CustomersIcon, href: "/customers" },
+  { label: "Products", icon: ProductsIcon, href: "/dashboard/products" },
+  { label: "Orders", icon: OrdersIcon, href: "/dashboard/orders", badge: 12 },
+  { label: "Inventory", icon: InventoryIcon, href: "/dashboard/inventory" },
+  { label: "Customers", icon: CustomersIcon, href: "/dashboard/customers" },
 ];
 
 const systemItems = [
