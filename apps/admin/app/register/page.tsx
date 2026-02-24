@@ -1,12 +1,16 @@
 "use client";
 
-import { useState } from "react";
-import LoginForm from "@/components/auth/LoginForm";
+import React from "react";
 import RegisterForm from "@/components/auth/RegisterForm";
 import { ShieldIcon } from "@/components/auth/AuthIcons";
+import { useRouter } from "next/navigation";
 
-export default function AuthPage() {
-  const [activeTab, setActiveTab] = useState<"login" | "register">("login");
+export default function RegisterPage() {
+  const router = useRouter();
+
+  const handleToggleLogin = () => {
+    router.push("/login");
+  };
 
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center bg-[#F8FAFC] px-4 py-4 selection:bg-primary/10 selection:text-primary">
@@ -27,44 +31,30 @@ export default function AuthPage() {
           <h1 className="text-lg font-bold tracking-tight text-secondary">
             JerseyHub Admin
           </h1>
-          <p className="mt-0.5 text-[0.625rem] font-bold uppercase tracking-widest text-[#94A3B8]">
-            Management Console
-          </p>
+          <div className="mt-1 flex items-center gap-1.5 rounded-full border border-primary/10 bg-primary/5 px-2 py-0.5 text-[0.625rem] font-bold uppercase tracking-wider text-primary">
+            <span className="relative flex h-1 w-1">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75"></span>
+              <span className="relative inline-flex h-1 w-1 rounded-full bg-primary"></span>
+            </span>
+            Authorized
+          </div>
         </div>
 
         {/* ── Card ── */}
         <div className="overflow-hidden rounded-2xl border border-[#E2E8F0] bg-white p-1 shadow-sm ring-1 ring-black/2">
-          {/* Tab switcher */}
-          <div className="flex gap-1 p-1">
-            {(["login", "register"] as const).map((tab) => (
-              <button
-                key={tab}
-                type="button"
-                onClick={() => setActiveTab(tab)}
-                className={`relative flex-1 rounded-lg py-2 text-[0.75rem] font-bold tracking-wide transition-all duration-300 ${
-                  activeTab === tab
-                    ? "bg-primary text-white shadow-sm"
-                    : "text-[#94A3B8] hover:bg-[#F8FAFC] hover:text-[#64748B]"
-                }`}
-              >
-                {tab === "login" ? "Sign In" : "Register"}
-              </button>
-            ))}
-          </div>
-
           <div className="px-6 py-6 sm:px-10">
-            {activeTab === "login" ? (
-              <LoginForm onToggleRegister={() => setActiveTab("register")} />
-            ) : (
-              <RegisterForm onToggleLogin={() => setActiveTab("login")} />
-            )}
+            <RegisterForm onToggleLogin={handleToggleLogin} />
           </div>
         </div>
 
         {/* ── Footer ── */}
         <div className="mt-4 flex items-center justify-center gap-4 text-[0.625rem] font-bold uppercase tracking-widest text-[#94A3B8]">
-          <span>ENCRYPTED</span>
-          <span>VERIFIED</span>
+          <span className="opacity-80 transition-opacity hover:opacity-100">
+            SECURE
+          </span>
+          <span className="opacity-80 transition-opacity hover:opacity-100">
+            ENCRYPTED
+          </span>
         </div>
       </div>
     </div>
